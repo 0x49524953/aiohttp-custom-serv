@@ -1,0 +1,12 @@
+[Unit]
+Description=Async Webserver
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/env python3 /srv/http/server.py
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
