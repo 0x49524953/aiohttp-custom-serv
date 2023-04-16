@@ -21,14 +21,7 @@ CustomApplication: web.Application
 CustomUrlDispatcher: web.UrlDispatcher
 
 # Import non-sensitive routes
-from module_public_routes import public_routes, public_redirects
-public_routes:      web.RouteTableDef
-public_redirects:   web.RouteTableDef
-
-# Import sensitive routes
-# Includes private info!
-from module_private_routes import private_routes
-private_routes:     web.RouteTableDef
+from module_public_routes import *
 
 # Import domain name
 from module_misc import domain_name, alt_domain_name
@@ -38,8 +31,7 @@ alt_domain_name:    str # i.e. 'example_b.com'
 # Main application for something like 'www.example_a.com'
 www = CustomApplication()
 www._router = CustomUrlDispatcher()
-www.add_routes(public_routes)
-www.add_routes(private_routes)
+www.add_routes(routes)
 
 # Application to handle redirects for:
 # '*.example_a.com'
@@ -49,7 +41,7 @@ www.add_routes(private_routes)
 # Everything is redirected using the 'redirects()'
 # coroutine defined in 'module_public_routes.py'
 alt_subdomains = CustomApplication()
-alt_subdomains.add_routes(public_redirects)
+alt_subdomains.add_routes(redirects)
 
 # Application to handle HTTPS/TLS traffic
 https = CustomApplication()
